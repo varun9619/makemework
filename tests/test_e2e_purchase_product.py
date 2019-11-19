@@ -18,7 +18,7 @@ import conf.e2e_weather_shopper_conf as conf
 def test_e2e_weather_shopper(base_url,browser,browser_version,os_version,os_name,remote_flag,testrail_flag,tesults_flag,test_run_id,remote_project_name,remote_build_name):
 
     "Run the test"
-    try:
+    if True:
         #Initalize flags for tests summary
         expected_pass = 0
         actual_pass = -1
@@ -42,7 +42,7 @@ def test_e2e_weather_shopper(base_url,browser,browser_version,os_version,os_name
         
         #Choose the right product type
         product_type = ""
-        if temperature <= 18:
+        if temperature <= 19:
             product_type = "moisturizers"
         if temperature >= 34:
             product_type = "sunscreens"
@@ -73,7 +73,7 @@ def test_e2e_weather_shopper(base_url,browser,browser_version,os_version,os_name
         #Verify the products displayed on the cart page
         result_flag = test_obj.verify_cart(product_list)
         test_obj.log_result(result_flag,
-        positive="Something wrong with the cart. The log messages above will have the details",
+        positive="No wrong with the cart. The log messages above will have the details",
         negative="Something wrong with the cart. The log messages above will have the details",
         level="critical")
 
@@ -83,12 +83,12 @@ def test_e2e_weather_shopper(base_url,browser,browser_version,os_version,os_name
         #Teardown
         test_obj.wait(3)
         expected_pass = test_obj.result_counter
-        actual_pass = test_obj.past_counter
+        actual_pass = test_obj.pass_counter
         test_obj.teardown()
         
-    except Exception as e:
+    '''except Exception as e:
         print("Exception when trying to run test:%s"%__file__)
-        print("Python says:%s"%repr(e))
+        print("Python says:%s"%repr(e))'''
 
     assert expected_pass == actual_pass, "Test failed: %s"%__file__
        
@@ -115,4 +115,4 @@ if __name__=='__main__':
                         remote_build_name=options.remote_build_name) 
     else:
         print('ERROR: Received incorrect comand line input arguments')
-        print(option_obj.print_usage())
+        print(options_obj.print_usage())
