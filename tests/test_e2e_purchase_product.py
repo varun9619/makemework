@@ -18,7 +18,7 @@ import conf.e2e_weather_shopper_conf as conf
 def test_e2e_weather_shopper(base_url,browser,browser_version,os_version,os_name,remote_flag,testrail_flag,tesults_flag,test_run_id,remote_project_name,remote_build_name):
 
     "Run the test"
-    if True:
+    try:
         #Initalize flags for tests summary
         expected_pass = 0
         actual_pass = -1
@@ -80,15 +80,24 @@ def test_e2e_weather_shopper(base_url,browser,browser_version,os_version,os_name
         #Print out the results
         test_obj.write_test_summary()
 
+        #
+        result_flag = test_obj.check_redirect_payment(product_list)
+        test_obj.log_result(result_flag,
+        positive="No wrong with the cart. The log messages above will have the details",
+        negative="Something wrong with the cart. The log messages above will have the details",
+        level="critical")
+        #
+
+
         #Teardown
         test_obj.wait(3)
         expected_pass = test_obj.result_counter
         actual_pass = test_obj.pass_counter
         test_obj.teardown()
         
-    '''except Exception as e:
+    except Exception as e:
         print("Exception when trying to run test:%s"%__file__)
-        print("Python says:%s"%repr(e))'''
+        print("Python says:%s"%repr(e))
 
     assert expected_pass == actual_pass, "Test failed: %s"%__file__
        
