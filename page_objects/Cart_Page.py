@@ -6,6 +6,7 @@ URL: /cart
 from .Base_Page import Base_Page
 from utils.Wrapit import Wrapit
 import conf.locators_conf as locators 
+import random, time
 
 class Cart_Page(Base_Page):
     "This class models the cart page"
@@ -13,6 +14,16 @@ class Cart_Page(Base_Page):
     CART_ROW = locators.CART_ROW
     CART_ROW_COLUMN = locators.CART_ROW_COLUMN
     CART_TOTAL = locators.CART_TOTAL
+    CARD_PAYMENT = locators.CARD_PAYMENT
+    PAYMENT_FRAME = locators.PAYMENT_FRAME
+    EMAIL = locators.EMAIL
+    PHONE_NO = locators.PHONE_NO
+    CARD_DATE = locators.CARD_DATE
+    CARD_NUM = locators.CARD_NUM
+    CVV = locators.CVV
+    ZIP_CODE = locators.ZIP_CODE
+    REMEMBER_ME_CLICK_BOX = locators.REMEMBER_ME_CLICK_BOX
+    PAY_BUTTON = locators.PAY_BUTTON
     COL_NAME = 0
     COL_PRICE = 1 
 
@@ -142,5 +153,31 @@ class Cart_Page(Base_Page):
         if result_flag is False:
             result_flag &= self.verify_missing_item(expected_cart,actual_cart)
         result_flag &= self.verify_cart_total(expected_cart)
-
+        result_flag &= self.verify_payment()
         return result_flag 
+
+    def verify_payment(self):
+        result_flag = self.click_element(self.CARD_PAYMENT)
+        self.switch_frame(self.PAYMENT_FRAME)
+        result_flag = False
+        "Autometically fill customer details"
+        mail_index=random.randint(1,100)
+        email_id = 'varun.tc'+str(mail_index)+'@qxf2.com'
+        card_number = '424242424242424242'
+        exp_date = '12/26'
+        cvv ='123'
+        zipcode = '500100'
+        mobile = '9211561410'
+        result_flag = self.set_text(self.EMAIL,email_id)
+        result_flag &= self.set_text(self.CARD_NUM,card_number)
+        result_flag &= self.set_text(self.CARD_DATE,exp_date)
+        result_flag &= self.set_text(self.CVV,cvv)
+        result_flag &= self.set_text(self.ZIP_CODE,zipcode)
+        result_flag &= self.click_element(self.REMEMBER_ME_CLICK_BOX)
+        result_flag &= self.set_text(self.PHONE_NO,mobile)
+        result_flag &= self.click_element(self.PAY_BUTTON)
+        time.sleep(10)
+
+        self.switch_page('payment')
+
+        return result_flag

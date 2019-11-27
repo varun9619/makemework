@@ -20,9 +20,10 @@ class Product_Object():
     CART_QUANTITY_TEXT = locators.CART_QUANTITY_TEXT
     CART_BUTTON = locators.CART_BUTTON
     CART_TITLE = locators.CART_TITLE
+    
     CART_QUANTITY = 0
     PRODUCTS_PER_PAGE = 6
-
+    
     def convert_str_to_int(self,string, default=100000, expect_fail=False):
         "Convert a given string to integer. Return default if you cannot convert"
         try:
@@ -118,7 +119,7 @@ class Product_Object():
         self.CART_QUANTITY = cart_quantity
         self.conditional_write(True,
         positive="The cart currently has %d items"%self.CART_QUANTITY,
-        negative="")
+        negative="The cart is empty it has no product in it")
         return cart_quantity
 
     def add_product(self,product_name):
@@ -151,6 +152,8 @@ class Product_Object():
         negative="Automation is not able to locate the Cart Title. Maybe it is not even on the cart page?")
         if result_flag:
             self.switch_page("cart")
+        
+        
 
         return result_flag
 
@@ -160,3 +163,8 @@ class Product_Object():
         result_flag &= self.verify_cart_page()
 
         return result_flag
+
+    
+
+    
+

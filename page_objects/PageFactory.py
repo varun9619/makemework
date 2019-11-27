@@ -8,6 +8,7 @@ from page_objects.Main_Page import Main_Page
 from page_objects.Sunscreens_Page import Sunscreens_Page
 from page_objects.Moisturizers_Page import Moisturizers_Page
 from page_objects.Cart_Page import Cart_Page
+from page_objects.payment_page import Payment_Page
 
 class PageFactory():
     "PageFactory uses the factory design pattern."
@@ -23,6 +24,8 @@ class PageFactory():
             test_obj = Sunscreens_Page(base_url=base_url,trailing_slash_flag=trailing_slash_flag)
         elif page_name in ["carts","cart","shopping cart"]:
             test_obj = Cart_Page(base_url=base_url,trailing_slash_flag=trailing_slash_flag)
+        elif page_name == "payment":
+            test_obj = Payment_Page(base_url=base_url,trailing_slash_flag=trailing_slash_flag)   
 
         return test_obj
 

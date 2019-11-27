@@ -293,7 +293,25 @@ class Base_Page(Borg,unittest.TestCase):
             self.exceptions.append("Error when switching browser window")
 
         return result_flag
+        
+    def switch_frame(self,name):
+        "Make the driver switch to the frame with a name"
+        result_flag = False
+        try:
+            
+            if name is not None:            
+                self.driver.switch_to.frame(frame_reference= self.driver.find_element_by_xpath(name))                
+                result_flag = True
+            self.conditional_write(result_flag,
+                                'Automation switched to the frame: %s'%name,
+                                'Unable to locate and switch to the frame with name: %s'%name,
+                                level='debug')
+        except Exception as e:
+            self.write("Exception when trying to switch frame")
+            self.write(str(e))
+            self.exceptions.append("Error when switching frame")
 
+        return result_flag
 
     def close_current_window(self):
         "Close the current window"
